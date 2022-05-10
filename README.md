@@ -5,12 +5,15 @@ Before run, make sure having the following dependencies:
 - Pytorch
 - Pillow
 
-if run on CPU, use:
+If run on CPU, use:
 `python3 project.py`
 
-if run on GPU, use:
+If run on GPU, use:
 `python3 --use_cuda 1 project.py`
-## 2. Code structure
 
+## 2. Code structure
+`class MaskDataSet(Dataset):
+...`
+### Custom dataset class extended Pytorch Dataset, use to store and process pictures and apply transforms from inputs.
 
 ## 3. Performance results

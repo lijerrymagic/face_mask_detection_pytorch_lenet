@@ -14,7 +14,7 @@ If run on GPU, use:
 ## 2. Code and model structure
 &nbsp;
 ![CNN Model](/perf_images/cnn.png)
-##### Model
+##### Customized LeNet-5 Model
 &nbsp;
 
     class MaskDataSet(Dataset):

@@ -11,7 +11,12 @@ If run on CPU, use:
 If run on GPU, use:
 `python3 --use_cuda 1 project.py`
 
-## 2. Code structure
+## 2. Code and model structure
+&nbsp;
+![CNN Model](/perf_images/cnn.png)
+##### Model
+&nbsp;
+
     class MaskDataSet(Dataset):
         def __init__(self, new_size, all_images, all_labels):
             super(MaskDataSet, self).__init__()
@@ -206,7 +211,7 @@ If run on GPU, use:
 ##### When model training completed, we can load the model and perform some quick handy tests.
 &nbsp;
 ## 3. Performance results
-![Train Loss](/perf_images/train_accuracy.jpeg)
+![Train Acc](/perf_images/train_accuracy.jpeg)
 ##### Tranining accuracy VS epochs.
 &nbsp;
 ![Train Loss](/perf_images/train_loss.jpeg)

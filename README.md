@@ -12,8 +12,30 @@ If run on GPU, use:
 `python3 --use_cuda 1 project.py`
 
 ## 2. Code structure
-`class MaskDataSet(Dataset):
-...`
+    class MaskDataSet(Dataset):
+        def __init__(self, new_size, all_images, all_labels):
+            super(MaskDataSet, self).__init__()
+            self.images = all_images
+            self.labels = all_labels
+
+            # transform to torch tensor
+            self.transform = transforms.Compose([
+                lambda img_path: Image.open(img_path).convert("RGB"),
+                transforms.Resize((int(new_size), int(new_size))),
+                transforms.ToTensor()
+                # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+            ])
+
+        def __getitem__(self, idx):
+            image_path = self.images[idx]
+            label = self.labels[idx]
+
+            image_tensor = self.transform(image_path)
+            return image_tensor, label
+
+
+        def __len__(self):
+            return len(self.images)
 ##### Custom dataset class extended Pytorch Dataset, use to store and process pictures and apply transforms from inputs.
 &nbsp;
 

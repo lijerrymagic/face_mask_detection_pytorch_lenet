@@ -1,4 +1,4 @@
-# HMPL Project - Wearing of Face Masks Detection Using CNN (Customized LeNet-5)
+# Wearing of Face Masks Detection Using CNN (Customized LeNet-5)
 
 ## 1. How to execute the code
 Before run, make sure having the following dependencies:

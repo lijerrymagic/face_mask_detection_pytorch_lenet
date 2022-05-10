@@ -19,7 +19,6 @@ If run on GPU, use:
 
 
 
-    ...
     all_images = []
     all_labels = []
     for (dirpath, dirnames, filenames) in walk(path_with_mask):
@@ -30,7 +29,7 @@ If run on GPU, use:
             all_images.append(file_path)
             all_labels.append(0)
             num_no_mask += 1
-    ...
+    
 ##### Read and store file paths in lists from dataset containing pictures of people wearing masks.
 &nbsp;
 
@@ -152,3 +151,4 @@ If run on GPU, use:
 ##### When model training completed, we can load the model and perform some quick handy tests..
 &nbsp;
 ## 3. Performance results
+![Train Loss](/perf_images/train_loss.png)

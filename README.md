@@ -1,4 +1,4 @@
-# HMPL Project - Wearing of Face Masks Detection Using CNN
+# HMPL Project - Wearing of Face Masks Detection Using CNN (Customized LeNet-5)
 
 ## 1. How to execute the code
 Before run, make sure having the following dependencies:
@@ -17,6 +17,39 @@ If run on GPU, use:
 ##### Custom dataset class extended Pytorch Dataset, use to store and process pictures and apply transforms from inputs.
 &nbsp;
 
+    class Customized_LeNet5(nn.Module):
+        def __init__(self, n_classes):
+            super(Customized_LeNet5, self).__init__()
+
+            self.feature_extractor = nn.Sequential(            
+                nn.Conv2d(in_channels=3, out_channels=16, kernel_size=3, padding="same"),
+                nn.ReLU(),
+                nn.MaxPool2d(kernel_size=2),
+                nn.Conv2d(in_channels=16, out_channels=32, kernel_size=3, padding="same"),
+                nn.ReLU(),
+                nn.MaxPool2d(kernel_size=2),
+                nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding="same"),
+                nn.MaxPool2d(kernel_size=2),
+                nn.ReLU()
+            )
+
+            self.classifier = nn.Sequential(
+                nn.Linear(in_features=9216, out_features=128),
+                nn.ReLU(),
+                nn.Linear(in_features=128, out_features=16),
+                nn.ReLU(),
+                nn.Linear(in_features=16, out_features=n_classes)
+                # nn.Sigmoid()
+            )
+
+        def forward(self, x):
+            x = self.feature_extractor(x)
+            x = torch.flatten(x, 1)
+            out = self.classifier(x)
+            probs = F.log_softmax(out, dim=1)
+            return probs
+##### Customized LeNet-5 CNN network with inout size of 100 X 100 X 3
+&nbsp;
 
 
     all_images = []

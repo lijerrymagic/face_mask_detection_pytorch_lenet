@@ -148,7 +148,13 @@ If run on GPU, use:
                 test_results.append("Wearing mask!")
         print(test_results)
         sys.exit(0)
-##### When model training completed, we can load the model and perform some quick handy tests..
+##### When model training completed, we can load the model and perform some quick handy tests.
 &nbsp;
 ## 3. Performance results
-![Train Loss](/perf_images/train_loss.png)
+![Train Loss](/perf_images/train_accuracy.jpeg)
+##### Tranining accuracy VS epochs.
+&nbsp;
+![Train Loss](/perf_images/train_loss.jpeg)
+##### Tranining loss VS epochs.
+&nbsp;
+

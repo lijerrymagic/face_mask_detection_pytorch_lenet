@@ -1,5 +1,3 @@
-import cv2
-import numpy as np
 from os import walk
 import torch
 import torch.nn as nn

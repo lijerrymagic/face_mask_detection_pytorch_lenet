@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-# import matplotlib.pyplot as plt
 from os import walk
 import torch
 import torch.nn as nn
@@ -114,8 +113,6 @@ for (dirpath, dirnames, filenames) in walk(path_with_mask):
         file_path = dirpath + "/" + filename
         if file_path.endswith("Store"):
             continue
-        # img_read = cv2.imread(file_path)
-        # img_blob = img_to_blob(img_read)
         all_images.append(file_path)
         all_labels.append(0)
         num_no_mask += 1
@@ -152,9 +149,11 @@ def data_init():
 
     classes = (0, 1)
     return (train_loader, test_loader, classes)
+
 print('######## Data initialization #########')
 train_loader, test_loader, classes = data_init()
 
+# constants and hyper params
 epochs = 15
 net = Customized_LeNet5(2).to(device)
 
@@ -169,7 +168,7 @@ def train(epoch):
     train_loss = 0
     correct = 0
     total = 0
-    print(len(train_loader))
+
     training_time = 0
     for batch_idx, (inputs, targets) in enumerate(train_loader):
         inputs, targets = inputs.to(device), targets.to(device)
@@ -183,8 +182,7 @@ def train(epoch):
 
         train_loss += loss.item()
         predicted = outputs.argmax(dim=1)
-        # print(predicted)
-        # print(targets)
+
         total += targets.size(0)
 
         correct += predicted.eq(targets).sum().item()
@@ -195,6 +193,7 @@ def train(epoch):
                      % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
     print("\n Epoch " + str(epoch) + " Training Time : " + str(training_time))
     return training_time
+
 # validate trained model
 def test(epoch):
     net.eval()

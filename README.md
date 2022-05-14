@@ -27,6 +27,8 @@ face_dataset: ~ 90000 images
 Customized LeNet-5  built in Pytorch and train the model using the preprocessed dataset.. The input of the model will be derived from preprocessing 
 and will have dimensions of 100x100x3.
 &nbsp;
+![CNN Model](/perf_images/cnn.png)
+&nbsp;
 #### Hardware
 laptop CPU. GPU not ran due to dataset issue on HPC.
 &nbsp;
@@ -34,8 +36,6 @@ laptop CPU. GPU not ran due to dataset issue on HPC.
 Pytorch, Torchvision, Pillow for image reading
 &nbsp;
 ## 3. Code and model structure
-&nbsp;
-![CNN Model](/perf_images/cnn.png)
 ##### Customized LeNet-5 Model
 &nbsp;
 

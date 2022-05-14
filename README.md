@@ -11,7 +11,29 @@ If run on CPU, use:
 If run on GPU, use:
 `python3 --use_cuda 1 project.py`
 
-## 2. Code and model structure
+## 2. Description
+#### Goal/Objective
+Given the current pandemic situation, face masks are required by government
+regulations in most public places. However, it is hard to detect if people are
+wearing face masks or not. Our goal is to use CNN to have a mechanism to
+detect if people wear face masks correctly.
+&nbsp;
+#### Dataset
+Dataset: Pictures of people wearing / not wearing face masks  from the internet.
+masked_face_dataset: ~ 5000 images
+face_dataset: ~ 90000 images
+&nbsp;
+#### CNN
+Customized LeNet-5  built in Pytorch and train the model using the preprocessed dataset.. The input of the model will be derived from preprocessing 
+and will have dimensions of 100x100x3.
+&nbsp;
+#### Hardware
+laptop CPU. GPU not ran due to dataset issue on HPC.
+&nbsp;
+### Software
+Pytorch, Torchvision, Pillow for image reading
+&nbsp;
+## 3. Code and model structure
 &nbsp;
 ![CNN Model](/perf_images/cnn.png)
 ##### Customized LeNet-5 Model

@@ -1,3 +1,6 @@
+import cv2
+import numpy as np
+# import matplotlib.pyplot as plt
 from os import walk
 import torch
 import torch.nn as nn
@@ -111,6 +114,8 @@ for (dirpath, dirnames, filenames) in walk(path_with_mask):
         file_path = dirpath + "/" + filename
         if file_path.endswith("Store"):
             continue
+        # img_read = cv2.imread(file_path)
+        # img_blob = img_to_blob(img_read)
         all_images.append(file_path)
         all_labels.append(0)
         num_no_mask += 1
@@ -147,11 +152,9 @@ def data_init():
 
     classes = (0, 1)
     return (train_loader, test_loader, classes)
-
 print('######## Data initialization #########')
 train_loader, test_loader, classes = data_init()
 
-# constants and hyper params
 epochs = 15
 net = Customized_LeNet5(2).to(device)
 
@@ -162,11 +165,12 @@ scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
 # feed data into model
 def train(epoch):
     print('\nEpoch: %d' % epoch)
+    f.write('\nEpoch: %d' % epoch+"\n")
     net.train()
     train_loss = 0
     correct = 0
     total = 0
-
+    print(len(train_loader))
     training_time = 0
     for batch_idx, (inputs, targets) in enumerate(train_loader):
         inputs, targets = inputs.to(device), targets.to(device)
@@ -180,18 +184,23 @@ def train(epoch):
 
         train_loss += loss.item()
         predicted = outputs.argmax(dim=1)
-
+        # print(predicted)
+        # print(targets)
         total += targets.size(0)
 
         correct += predicted.eq(targets).sum().item()
         if batch_idx == len(train_loader) - 1:
             train_loss_list.append(train_loss/(batch_idx+1))
             train_acc_list.append(correct/total)
+            print(epoch,'Train Accuracy : ', train_loss/(batch_idx+1), 'Train Loss : ', correct/total)
+            output = str(epoch) + ' Train Accuracy : ' + str(train_loss/(batch_idx+1)) + ' Train Loss : ' + str(correct/total) + "\n"
+            f.write(output)
         print(batch_idx, len(train_loader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
                      % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
     print("\n Epoch " + str(epoch) + " Training Time : " + str(training_time))
+    write = "Epoch " + str(epoch) + " Training Time : " + str(training_time) + "\n"
+    f.write(write)
     return training_time
-
 # validate trained model
 def test(epoch):
     net.eval()
@@ -209,19 +218,28 @@ def test(epoch):
             total += targets.size(0)
 
             correct += predicted.eq(targets).sum().item()
+            if batch_idx == len(test_loader) - 1:
+                test_loss_list.append(test_loss/(batch_idx+1))
+                test_acc_list.append(correct/total)
+                print(epoch,'Test Accuracy : ', test_loss/(batch_idx+1), 'Test Loss : ', correct/total)
+                output = str(epoch) + 'Test Accuracy : ' + str(test_loss/(batch_idx+1)) + 'Test Loss : ' + str(correct/total)  + "\n"
+                f.write(output)
             print(batch_idx, len(test_loader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-                         % (test_loss/(batch_idx+1), 100.*correct/total, correct, total))                 
-
+                         % (test_loss/(batch_idx+1), 100.*correct/total, correct, total))             
+f = open("output.out", "w")
 total_train = 0
 train_loss_list = []
 train_acc_list = []
 train_time_list = []
+test_acc_list = []
+test_loss_list = []
 for epoch in range(epochs):
-    train_start = time.perf_counter()
+    f.write("*************Training started*************")
     print("*************Training started*************")
-    train_time_list.append(train(epoch))
-    train_end = time.perf_counter()
-    total_train += train_end - train_start
+    oneEpochTime = train(epoch)
+    train_time_list.append(oneEpochTime)
+    total_train += oneEpochTime
+    f.write("*************Testing started*************")
     print("*************Testing started*************")
     test(epoch)
     scheduler.step()
@@ -232,4 +250,35 @@ state = {
 torch.save(state, f'./checkpoint.pt')
 print(train_loss_list)
 print(train_acc_list)
+print(test_loss_list)
+print(test_acc_list)
 print(train_time_list)
+print(sum(train_time_list))
+
+train_loss = ""
+for l in train_loss_list:
+    train_loss += str(l) + " "
+f.write("Train Loss :" + train_loss + "\n")
+
+train_acc = ""
+for l in train_acc_list:
+    train_acc += str(l) + " "
+f.write("Train Accuracy :" + train_acc+ "\n")
+
+test_loss = ""
+for l in test_loss_list:
+    test_loss += str(l) + " "
+f.write("Test Loss :" + test_loss+ "\n")
+
+test_acc = ""
+for l in test_acc_list:
+    test_acc += str(l) + " "
+f.write("Test Accuracy :" + test_acc+ "\n")
+
+train_time = ""
+for l in train_time_list:
+    train_time += str(l) + " "
+f.write("Train Time :" + train_time+ "\n")
+f.write("Total Train Time is " + str(sum(train_time_list)))
+
+f.close()

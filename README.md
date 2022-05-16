@@ -241,4 +241,19 @@ Pytorch, Torchvision, Pillow for image reading
 ![Train Loss](/perf_images/train_loss.jpeg)
 ##### Tranining loss VS epochs.
 &nbsp;
+![Test Acc](/perf_images/test_accuracy.png)
+##### Test accuracy VS epochs.
+&nbsp;
+![Test Loss](/perf_images/test_loss.png)
+##### Test loss VS epochs.
+&nbsp;
+
+![Combined](/perf_images/combined.png)
+##### Train and test in one graph
+&nbsp;
+
+![Traning time](/perf_images/training_time.png)
+##### Train time VS epochs.
+&nbsp;
+
 

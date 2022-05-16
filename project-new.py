@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-# import matplotlib.pyplot as plt
 from os import walk
 import torch
 import torch.nn as nn
@@ -65,7 +64,6 @@ class Customized_LeNet5(nn.Module):
             nn.Linear(in_features=128, out_features=16),
             nn.ReLU(),
             nn.Linear(in_features=16, out_features=n_classes)
-            # nn.Sigmoid()
         )
 
     def forward(self, x):
@@ -79,6 +77,8 @@ class Customized_LeNet5(nn.Module):
 checkpoint_file = "./checkpoint.pt"
 file_exists = os.path.exists(checkpoint_file)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+# perform quick testing using trained model
 if file_exists:
     net = Customized_LeNet5(2).to(device)
     state = torch.load(checkpoint_file)
@@ -114,8 +114,7 @@ for (dirpath, dirnames, filenames) in walk(path_with_mask):
         file_path = dirpath + "/" + filename
         if file_path.endswith("Store"):
             continue
-        # img_read = cv2.imread(file_path)
-        # img_blob = img_to_blob(img_read)
+
         all_images.append(file_path)
         all_labels.append(0)
         num_no_mask += 1
